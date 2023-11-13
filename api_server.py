@@ -1,8 +1,7 @@
 from flask import Flask, request, jsonify
 import requests
 from requests.exceptions import Timeout
-#import firebase_config
-#import pyrebase
+
 
 
 
@@ -12,8 +11,6 @@ app = Flask(__name__)
 NaiveBayesServer = 'http://localhost:8081/NaiveBayesPredict'
 ClusterServer = 'http://localhost:8082/'
 
-#firebase = pyrebase.initialize_app(config)
-#auth = firebase.auth()
 
 @app.route("/", methods=['GET'])
 def root_server():
@@ -23,7 +20,6 @@ def root_server():
 def normal_flow():
     
     data = request.get_json()
-    id_token = request.headers.get('Authorization')
     
     if data:
         try:
