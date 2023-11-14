@@ -4,12 +4,10 @@ from requests.exceptions import Timeout
 
 
 
-
-
 app = Flask(__name__)
 
 NaiveBayesServer = 'http://localhost:8081/NaiveBayesPredict'
-ClusterServer = 'http://localhost:8082/'
+ClusterServer = 'http://localhost:8082/predict'
 
 
 @app.route("/", methods=['GET'])
