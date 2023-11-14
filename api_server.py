@@ -1,13 +1,14 @@
 from flask import Flask, request, jsonify
 import requests
 from requests.exceptions import Timeout
+import json
 
 
 
 app = Flask(__name__)
 
 NaiveBayesServer = 'http://localhost:8081/NaiveBayesPredict'
-ClusterServer = 'http://localhost:8082/predict'
+ClusterServer = 'http://localhost:8082/predecir'
 
 
 @app.route("/", methods=['GET'])
@@ -33,11 +34,13 @@ def normal_flow():
             except Timeout:
                 return jsonify({"error": "The request to Cluster Server timed out"}), 408
             
-            return jsonify(response2.json()), response2.status_code
+            response2_json = json.loads(response2.text)
+            label = response2_json['etiqueta_predicha']
+            return jsonify({"nb_predict": response1.text, "label": label}), response2.status_code
         
         #Si la predicción es 0 entonces retornar el status
         else:
-            return jsonify(response1.json()), response1.status_code    
+            return jsonify({"nb_predict": response1.text}), response1.status_code    
     else:
         return jsonify({"error": "Bad Request"}), 400
     
