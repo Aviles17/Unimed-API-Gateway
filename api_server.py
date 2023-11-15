@@ -19,6 +19,8 @@ def root_server():
 def normal_flow():
     
     data = request.get_json()
+    data = normalice_json_request(data)
+    print(data)
     
     if data:
         try:
@@ -43,10 +45,18 @@ def normal_flow():
             return jsonify({"nb_predict": response1.text}), response1.status_code    
     else:
         return jsonify({"error": "Bad Request"}), 400
+   
+#Funcion auxiliar para normalizar inputs 
+def normalice_json_request(request: dict):
+    ret_dict = {}
+    base_64_url = request["body"][0]['attachmentUrl']
+    str_body = request["body"][0]['body']
+    ret_dict["url"] = base_64_url
+    ret_dict["body"] = str_body
+    ret_dict["CC"] = "1000697372"
     
-        
+    return ret_dict     
         
 
 if __name__ == '__main__':
-    #Run Flask app
-    app.run(port=8080, debug=True)
+    app.run(port=2023, debug=True)
